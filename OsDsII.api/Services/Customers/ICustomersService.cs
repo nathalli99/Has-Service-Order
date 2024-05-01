@@ -6,6 +6,6 @@ namespace OsDsII.api.Services.Customers
     {
         public Task CreateAsync(CreateCustomerDto customer);
         public Task<CustomerDto> GetByIdAsync(int id);
-        public Task<CustomerDto> GetAllAsync();
+        public Task<IEnumerable<CustomerDto>> GetAllAsync();
     }
 }
