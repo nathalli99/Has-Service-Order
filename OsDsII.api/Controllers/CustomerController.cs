@@ -1,12 +1,11 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using OsDsII.api.Data;
 using OsDsII.api.Dtos;
 using OsDsII.api.Exceptions;
 using OsDsII.api.Models;
 using OsDsII.api.Repository.CustomersRepository;
 using OsDsII.api.Services.Customers;
+using OsDsII.api.Http;
 
 namespace OsDsII.api.Controllers
 {
@@ -16,13 +15,11 @@ namespace OsDsII.api.Controllers
     {
         //private readonly DataContext _dataContext;
         private readonly ICustomersRepository _customersRepository;
-        private readonly IMapper _mapper;
         private readonly ICustomersService _customersService;
 
-        public CustomersController(ICustomersRepository customersRepository, IMapper mapper, ICustomersService customersService)
+        public CustomersController(ICustomersRepository customersRepository, ICustomersService customersService)
         {
             _customersRepository = customersRepository;
-            _mapper = mapper;
             _customersService = customersService;
         }
 
@@ -51,22 +48,18 @@ namespace OsDsII.api.Controllers
         {
             try
             {
-                Customer customer = await _customersRepository.GetByIdAsync(id);
-                if (customer is null)
-                {
-                    return NotFound("Customer not found");
-                }
-                return Ok(customer);
+                CustomerDto customer = await _customersService.GetByIdAsync(id);
+                return HttpResponse<CustomerDto>.Created(customer);
             }
-            catch (Exception ex)
+            catch (BaseException ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return ex.GetResponse();
             }
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Customer))]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status409Conflict, Type= typeof(ConflictException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateCustomerAsync(CreateCustomerDto customer)
         {

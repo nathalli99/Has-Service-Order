@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using OsDsII.api.Controllers;
 using OsDsII.api.Dtos;
 using OsDsII.api.Exceptions;
 using OsDsII.api.Models;
@@ -11,11 +10,25 @@ namespace OsDsII.api.Services.Customers
     {
         private readonly ICustomersRepository _customersRepository;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CustomersService(ICustomersRepository customersRepository, IMapper mapper)
+        public CustomersService(ICustomersRepository customersRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _customersRepository = customersRepository;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public async Task<CustomerDto> GetByIdAsync(int id)
+        {
+            Customer userExists = await _customersRepository.GetByIdAsync(id);
+            if (userExists is null)
+            {
+                throw new NotFoundException("Usuário não encontrado",
+                    _httpContextAccessor?.HttpContext?.Request?.Path);
+            }
+            var customer = _mapper.Map<CustomerDto>(userExists);
+            return customer;
         }
 
         public async Task CreateAsync(CreateCustomerDto customerDto)
