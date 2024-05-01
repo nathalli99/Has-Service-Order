@@ -13,7 +13,8 @@ namespace OsDsII.api.Exceptions
                 null,
                 DateTimeOffset.UtcNow,
                 null
-            ) { }
+            )
+        { }
 
         public NotFoundException(string message, string uriPath) : base
     (

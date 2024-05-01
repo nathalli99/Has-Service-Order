@@ -31,6 +31,13 @@ namespace OsDsII.api.Services.Customers
             return customer;
         }
 
+        public async Task<IEnumerable<CustomerDto>> GetAllAsync()
+        {
+            var customers = await _customersRepository.GetAllAsync();
+            var customersDto = _mapper.Map<IEnumerable<CustomerDto>>(customers);
+            return customersDto;
+        }
+
         public async Task CreateAsync(CreateCustomerDto customerDto)
         {
             var customer = _mapper.Map<Customer>(customerDto);

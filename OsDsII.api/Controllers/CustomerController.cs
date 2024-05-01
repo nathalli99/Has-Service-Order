@@ -49,7 +49,7 @@ namespace OsDsII.api.Controllers
             try
             {
                 CustomerDto customer = await _customersService.GetByIdAsync(id);
-                return HttpResponse<CustomerDto>.Created(customer);
+                return HttpResponse<CustomerDto>.Ok(customer);
             }
             catch (BaseException ex)
             {
