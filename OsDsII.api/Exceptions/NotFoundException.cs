@@ -8,8 +8,8 @@ namespace OsDsII.api.Exceptions
             (
                 "HSO-002",
                 message,
-                HttpStatusCode.Conflict,
-                StatusCodes.Status409Conflict,
+                HttpStatusCode.NotFound,
+                StatusCodes.Status404NotFound,
                 null,
                 DateTimeOffset.UtcNow,
                 null
@@ -20,8 +20,8 @@ namespace OsDsII.api.Exceptions
     (
         "HSO-002",
         message,
-        HttpStatusCode.Conflict,
-        StatusCodes.Status409Conflict,
+        HttpStatusCode.NotFound,
+        StatusCodes.Status404NotFound,
         uriPath,
         DateTimeOffset.UtcNow,
         null

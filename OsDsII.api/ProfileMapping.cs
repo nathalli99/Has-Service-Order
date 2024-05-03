@@ -10,6 +10,7 @@ namespace OsDsII.api
         {
             CreateMap<CreateCustomerDto, Customer>();
             CreateMap<CustomerDto, Customer>();
+            CreateMap<Customer, CustomerDto>();
         }
     }
 }

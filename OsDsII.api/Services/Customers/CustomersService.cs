@@ -21,14 +21,14 @@ namespace OsDsII.api.Services.Customers
 
         public async Task<CustomerDto> GetByIdAsync(int id)
         {
-            Customer userExists = await _customersRepository.GetByIdAsync(id);
-            if (userExists is null)
+            Customer customer = await _customersRepository.GetByIdAsync(id);
+            if (customer is null)
             {
-                throw new NotFoundException("Usuário não encontrado",
-                    _httpContextAccessor?.HttpContext?.Request?.Path);
+                string uriPath = _httpContextAccessor.HttpContext?.Request.Path;
+                throw new NotFoundException("Usuário não encontrado", uriPath);
             }
-            var customer = _mapper.Map<CustomerDto>(userExists);
-            return customer;
+            var customerDto = _mapper.Map<CustomerDto>(customer);
+            return customerDto;
         }
 
         public async Task<IEnumerable<CustomerDto>> GetAllAsync()
@@ -49,6 +49,33 @@ namespace OsDsII.api.Services.Customers
             }
 
             await _customersRepository.AddCustomerAsync(customer);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            Customer customer = await _customersRepository.GetByIdAsync(id);
+            if (customer is null)
+            {
+                string uriPath = _httpContextAccessor.HttpContext?.Request.Path;
+                throw new NotFoundException("Usuário não encontrado", uriPath);
+            }
+
+            await _customersRepository.DeleteCustomer(customer);
+        }
+
+        public async Task UpdateAsync(int id, CreateCustomerDto customer)
+        {
+            Customer customerExists = await _customersRepository.GetByIdAsync(id);
+            if (customerExists is null)
+            {
+                string uriPath = _httpContextAccessor.HttpContext?.Request.Path;
+                throw new NotFoundException("Usuário não encontrado", uriPath);
+            }
+            customerExists.Email = customer.Email;
+            customerExists.Name = customer.Name;
+            customerExists.Phone = customer.Phone;
+
+            await _customersRepository.UpdateCustomerAsync(customerExists);
         }
 
     }
