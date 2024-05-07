@@ -8,7 +8,7 @@ namespace OsDsII.api.Models
         public double Price { get; set; }
         public StatusServiceOrder Status { get; set; }
         public DateTimeOffset OpeningDate { get; set; } = DateTimeOffset.Now;
-        public DateTimeOffset FinishDate { get; set; }
+        public DateTimeOffset? FinishDate { get; set; } = null;
 
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }

@@ -1,37 +1,47 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using OsDsII.api.Dtos;
+using OsDsII.api.Exceptions;
+using OsDsII.api.Http;
 using OsDsII.api.Models;
 using OsDsII.api.Repository.CustomersRepository;
 using OsDsII.api.Repository.ServiceOrderRepository;
+using OsDsII.api.Services.ServiceOrders;
 
 namespace OsDsII.api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/[controller]")]
     public sealed class ServiceOrdersController : ControllerBase
     {
         private readonly IServiceOrderRepository _serviceOrderRepository; // IOC (INVERSION OF CONTROL)
         private readonly ICustomersRepository _customersRepository;
+        private readonly IServiceOrdersService _serviceOrdersService;
         public ServiceOrdersController(
             IServiceOrderRepository serviceOrderRepository,
-            ICustomersRepository customersRepository
+            ICustomersRepository customersRepository,
+            IServiceOrdersService serviceOrdersService
             )
         {
             _serviceOrderRepository = serviceOrderRepository;
             _customersRepository = customersRepository;
+            _serviceOrdersService = serviceOrdersService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllServiceOrderAsync()
+        [HttpGet("Customers/{customerId}")]
+        public async Task<IActionResult> GetAllServiceOrderAsync(int customerId)
         {
             try
             {
-                List<ServiceOrder> serviceOrders = await _serviceOrderRepository.GetAllAsync();
-                return Ok(serviceOrders);
+                List<ServiceOrder> serviceOrders = await _serviceOrderRepository.GetAllServiceOrderFromCustomer(customerId);
+                if (serviceOrders == null)
+                {
+                    return NotFound();
+                }
+                return HttpResponse<List<ServiceOrder>>.Ok(serviceOrders);
             }
-            catch (Exception ex)
+            catch (BaseException ex)
             {
-                return BadRequest(ex.Message);
+                return ex.GetResponse();
             }
         }
 
@@ -47,35 +57,23 @@ namespace OsDsII.api.Controllers
                 }
                 return Ok(serviceOrder);
             }
-            catch (Exception ex)
+            catch (BaseException ex)
             {
-                return BadRequest(ex.Message);
+                return ex.GetResponse();
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateServiceOrderAsync(ServiceOrder serviceOrder)
+        public async Task<IActionResult> CreateServiceOrderAsync(CreateServiceOrderDto serviceOrder)
         {
             try
             {
-                if (serviceOrder is null)
-                {
-                    throw new Exception("Service order cannot be null");
-                }
-
-                Customer customer = await _customersRepository.GetByIdAsync(serviceOrder.Customer.Id);
-
-                if (customer is null)
-                {
-                    throw new Exception("Customer not found");
-                }
-
-                await _serviceOrderRepository.AddAsync(serviceOrder);
-                return Created("CreateServiceOrderAsync", serviceOrder);
+                var newServiceOrder = await _serviceOrdersService.CreateAsync(serviceOrder);
+                return Created("CreateServiceOrderAsync", newServiceOrder);
             }
-            catch (Exception ex)
+            catch (BaseException ex)
             {
-                return BadRequest(ex.Message);
+                return ex.GetResponse();
             }
 
         }
@@ -96,9 +94,9 @@ namespace OsDsII.api.Controllers
                 return NoContent();
 
             }
-            catch (Exception ex)
+            catch (BaseException ex)
             {
-                return BadRequest(ex.Message);
+                return ex.GetResponse();
             }
         }
 
@@ -118,9 +116,9 @@ namespace OsDsII.api.Controllers
 
                 return NoContent();
             }
-            catch (Exception ex)
+            catch (BaseException ex)
             {
-                return BadRequest(ex.Message);
+                return ex.GetResponse();
             }
         }
     }

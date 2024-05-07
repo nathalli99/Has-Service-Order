@@ -57,5 +57,12 @@ namespace OsDsII.api.Repository.ServiceOrderRepository
                  .FirstOrDefaultAsync(s => serviceOrderId == s.Id);
         }
 
+        public async Task<List<ServiceOrder>> GetAllServiceOrderFromCustomer(int customerId)
+        {
+            return await _dataContext.ServiceOrders
+                .Where(so => so.CustomerId == customerId)
+                .ToListAsync();
+        }
+
     }
 }

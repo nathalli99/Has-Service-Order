@@ -36,7 +36,7 @@ namespace OsDsII.api.Migrations
                     Price = table.Column<double>(type: "float", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OpeningDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValue: new DateTimeOffset(new DateTime(2024, 3, 12, 21, 50, 57, 907, DateTimeKind.Unspecified).AddTicks(8838), new TimeSpan(0, -3, 0, 0, 0))),
-                    FinishDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    FinishDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

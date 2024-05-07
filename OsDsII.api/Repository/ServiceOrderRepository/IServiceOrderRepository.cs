@@ -12,5 +12,7 @@ namespace OsDsII.api.Repository.ServiceOrderRepository
         public Task CancelAsync(ServiceOrder serviceOrder);
         public Task<ServiceOrder> GetServiceOrderWithComments(int serviceOrderId);
         public Task<ServiceOrder> GetServiceOrderFromUser(int serviceOrderId);
+
+        public Task<List<ServiceOrder>> GetAllServiceOrderFromCustomer(int customerId);
     }
 }
