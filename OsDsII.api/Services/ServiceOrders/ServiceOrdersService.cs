@@ -28,14 +28,14 @@ namespace OsDsII.api.Services.ServiceOrders
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<List<NewServiceOrderDto>> GetAllAsync(int customerId)
+        public async Task<List<ServiceOrderDto>> GetAllAsync(int customerId)
         {
             var serviceOrders = await _serviceOrderRepository.GetAllServiceOrderFromCustomer(customerId);
             if (serviceOrders == null)
             {
                 throw new NotFoundException("Não existe nenhuma ordem de serviço atrelada ao usuário");
             }
-            var serviceOrderDto = _mapper.Map<List<NewServiceOrderDto>>(serviceOrders);
+            var serviceOrderDto = _mapper.Map<List<ServiceOrderDto>>(serviceOrders);
             return serviceOrderDto;
         }
 
@@ -52,12 +52,19 @@ namespace OsDsII.api.Services.ServiceOrders
             if (customer is null)
             {
                 string uriPath = _httpContextAccessor.HttpContext?.Request.Path;
-                throw new NotFoundException("Service order cannot be null", uriPath);
+                throw new BadRequestException("Não é possível atrelar uma ordem de serviço a um usuário inexistente", uriPath);
             }
             var mappedServiceOrder = _mapper.Map<ServiceOrder>(serviceOrder);
             await _serviceOrderRepository.AddAsync(mappedServiceOrder);
 
             return _mapper.Map<NewServiceOrderDto>(mappedServiceOrder);
+        }
+
+        public async Task<ServiceOrderDto> GetByIdAsync(int serviceOrderId)
+        {
+            var serviceOrder = await _serviceOrderRepository.GetServiceOrderFromUser(serviceOrderId);
+            var serviceOrderDto = _mapper.Map<ServiceOrderDto>(serviceOrder);
+            return serviceOrderDto;
         }
     }
 }

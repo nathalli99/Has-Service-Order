@@ -32,12 +32,12 @@ namespace OsDsII.api.Controllers
         {
             try
             {
-                List<ServiceOrder> serviceOrders = await _serviceOrderRepository.GetAllServiceOrderFromCustomer(customerId);
+                List<ServiceOrderDto> serviceOrders = await _serviceOrdersService.GetAllAsync(customerId); //_serviceOrderRepository.GetAllServiceOrderFromCustomer(customerId);
                 if (serviceOrders == null)
                 {
                     return NotFound();
                 }
-                return HttpResponse<List<ServiceOrder>>.Ok(serviceOrders);
+                return HttpResponse<List<ServiceOrderDto>>.Ok(serviceOrders);
             }
             catch (BaseException ex)
             {
@@ -50,10 +50,10 @@ namespace OsDsII.api.Controllers
         {
             try
             {
-                ServiceOrder serviceOrder = await _serviceOrderRepository.GetByIdAsync(id);
+                ServiceOrderDto serviceOrder = await _serviceOrdersService.GetByIdAsync(id);
                 if (serviceOrder is null)
                 {
-                    throw new Exception("Service order not found");
+                    throw new NotFoundException("Service order not found");
                 }
                 return Ok(serviceOrder);
             }

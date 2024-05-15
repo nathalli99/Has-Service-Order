@@ -1,3 +1,5 @@
+using OsDsII.api.Exceptions;
+
 namespace OsDsII.api.Models
 {
     public class ServiceOrder
@@ -6,7 +8,7 @@ namespace OsDsII.api.Models
         public string Description { get; set; }
 
         public double Price { get; set; }
-        public StatusServiceOrder Status { get; set; }
+        public StatusServiceOrder Status { get; set; } = StatusServiceOrder.OPEN;
         public DateTimeOffset OpeningDate { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? FinishDate { get; set; } = null;
 
@@ -22,7 +24,7 @@ namespace OsDsII.api.Models
         {
             if (!CanFinish())
             {
-                throw new Exception($"Service order cannot be finished due to current status {Status}");
+                throw new ConflictException($"Service order cannot be finished due to current status {Status}");
             }
 
             Status = StatusServiceOrder.FINISHED;
@@ -33,7 +35,7 @@ namespace OsDsII.api.Models
         {
             if (!CanFinish())
             {
-                throw new Exception($"Service order cannot be canceled due to current status {Status}");
+                throw new ConflictException($"Service order cannot be canceled due to current status {Status}");
             }
 
             Status = StatusServiceOrder.CANCELED;

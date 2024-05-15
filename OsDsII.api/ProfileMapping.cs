@@ -15,6 +15,7 @@ namespace OsDsII.api
             CreateMap<ServiceOrder, CreateServiceOrderDto>();
             CreateMap<CreateServiceOrderDto, ServiceOrder>();
             CreateMap<ServiceOrder, NewServiceOrderDto>();
+            CreateMap<ServiceOrder, ServiceOrderDto>();
         }
     }
 }
