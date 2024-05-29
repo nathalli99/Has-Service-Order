@@ -1,0 +1,39 @@
+﻿using AutoMapper;
+using OsDsII.api.Repository.CustomersRepository;
+using OsDsII.api.Services.Customers;
+using Moq;
+using Microsoft.AspNetCore.Http;
+using OsDsII.api.Dtos;
+using OsDsII.api.Models;
+
+namespace HasServiceOrder.Tests.Service
+{
+    public class CustomersServiceTests
+    {
+        private readonly Mock<ICustomersRepository> _mockCustomersRepository;
+        private readonly Mock<IMapper> _mockMapper;
+        private readonly Mock<IHttpContextAccessor> _mockHttpContextAccessor;
+        private readonly CustomersService _service;
+
+        public CustomersServiceTests()
+        {
+            _mockCustomersRepository = new Mock<ICustomersRepository>();
+            _mockMapper = new Mock<IMapper>();
+            _mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+            _service = new CustomersService(_mockCustomersRepository.Object, _mockMapper.Object, _mockHttpContextAccessor.Object);
+        }
+
+        [Fact]
+        public async void Should_Return_A_List_Of_Customers()
+        {
+            // gera uma lista estática de customersDto
+            List<CustomerDto> customers = new List<CustomerDto>()
+            {
+                new CustomerDto { Id = 1, Email = "fakemail@mail.com", Name = "Lucas Careca", Phone = "992398763297", ServiceOrders = null },
+            };
+            _mockCustomersRepository.Setup(repository => repository.GetAllAsync()).ReturnsAsync(customers);
+            var result = await _service.GetAllAsync();
+            Assert.Equal(/*sua lista de customers*/, result);
+        }
+    }
+}
