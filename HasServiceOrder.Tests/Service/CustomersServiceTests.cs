@@ -27,13 +27,18 @@ namespace HasServiceOrder.Tests.Service
         public async void Should_Return_A_List_Of_Customers()
         {
             // gera uma lista estática de customersDto
-            List<CustomerDto> customers = new List<CustomerDto>()
+            List<Customer> customers = new List<Customer>()
+            {
+                new Customer { Id = 1, Email = "fakemail@mail.com", Name = "Lucas Careca", Phone = "992398763297", ServiceOrders = null }
+            };
+            List<CustomerDto> customersDto = new List<CustomerDto>()
             {
                 new CustomerDto { Id = 1, Email = "fakemail@mail.com", Name = "Lucas Careca", Phone = "992398763297", ServiceOrders = null },
             };
             _mockCustomersRepository.Setup(repository => repository.GetAllAsync()).ReturnsAsync(customers);
+            _mockMapper.Setup(m => m.Map<IEnumerable<CustomerDto>>(It.IsAny<IEnumerable<Customer>>())).Returns(customersDto);
             var result = await _service.GetAllAsync();
-            Assert.Equal(/*sua lista de customers*/, result);
+            Assert.Equal(customersDto, result);
         }
     }
 }
