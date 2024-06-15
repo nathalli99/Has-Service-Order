@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OsDsII.api.Data;
-using OsDsII.api.Models;
+﻿using OsDsII.Api.Data;
+using OsDsII.Api.Models;
 
-namespace OsDsII.api.Repository.CommentsRepository
+namespace OsDsII.Api.Repository.CommentsRepository
 {
     public sealed class CommentsRepository : ICommentsRepository
     {
@@ -15,7 +14,7 @@ namespace OsDsII.api.Repository.CommentsRepository
 
         public async Task AddCommentAsync(Comment comment)
         {
-            await _dataContext.Comments.AddAsync(comment); // This line adds the comment to the context
+            await _dataContext.Comments.AddAsync(comment);
             await _dataContext.SaveChangesAsync();
         }
     }

@@ -1,7 +1,6 @@
-﻿using OsDsII.api.Dtos;
-using OsDsII.api.Models;
+﻿using OsDsII.Api.Models;
 
-namespace OsDsII.api.Repository.CustomersRepository
+namespace OsDsII.Api.Repository.CustomersRepository
 {
     public interface ICustomersRepository
     {

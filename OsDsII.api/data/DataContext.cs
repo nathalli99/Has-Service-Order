@@ -1,13 +1,15 @@
+using OsDsII.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OsDsII.api.Models;
 
-namespace OsDsII.api.Data
+namespace OsDsII.Api.Data
 {
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
-        { }
+        {
+
+        }
         public DbSet<ServiceOrder> ServiceOrders { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -40,7 +42,6 @@ namespace OsDsII.api.Data
                 .Property(c => c.Phone)
                 .HasMaxLength(20);
 
-            // Service Order
             modelBuilder.Entity<ServiceOrder>()
                 .ToTable("service_order");
 
@@ -57,25 +58,21 @@ namespace OsDsII.api.Data
 
             modelBuilder.Entity<ServiceOrder>()
                 .Property(s => s.Price)
-                .IsRequired(); //required significa NOT NULL por debaixo dos panos
-            
+                .IsRequired();
+
             modelBuilder.Entity<ServiceOrder>()
                 .Property(s => s.Status)
                 .HasConversion(
-                new EnumToStringConverter<StatusServiceOrder>() //converte o enum em string
-                );
+                new EnumToStringConverter<StatusServiceOrder>());
 
             modelBuilder.Entity<ServiceOrder>()
                 .Property(s => s.OpeningDate)
                 .HasDefaultValueSql("getdate()");
-            // ou .HasDefaultValue(DateTimeOffset.Now);
 
             modelBuilder.Entity<ServiceOrder>()
                 .Property(s => s.FinishDate)
                 .HasDefaultValue(null);
 
-
-            // Comentarios
             modelBuilder.Entity<Comment>()
                 .ToTable("coomments");
 
@@ -92,17 +89,15 @@ namespace OsDsII.api.Data
                 .IsRequired();
 
             modelBuilder.Entity<Comment>()
-                .Property (c => c.SendDate)
+                .Property(c => c.SendDate)
                 .HasDefaultValue(DateTimeOffset.Now);
 
-            // chave estrangeira 1/N
             modelBuilder.Entity<ServiceOrder>()
                 .HasOne(s => s.Customer)
                 .WithMany(e => e.ServiceOrders)
                 .HasForeignKey(o => o.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // chave estrangeira
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.ServiceOrder)
                 .WithMany(e => e.Comments)

@@ -2,15 +2,15 @@
 
 namespace OsDsII.Api.Exceptions
 {
-    public class ConflictException : BaseException
+    public class BadRequest : BaseException
     {
-        public ConflictException(string message) :
+        public BadRequest(string message) :
         base
             (
-                "HSO-001",
+                "HSO-003", 
                 message,
-                HttpStatusCode.Conflict,
-                StatusCodes.Status409Conflict,
+                HttpStatusCode.BadRequest,
+                StatusCodes.Status400BadRequest,
                 null,
                 DateTimeOffset.UtcNow,
                 null

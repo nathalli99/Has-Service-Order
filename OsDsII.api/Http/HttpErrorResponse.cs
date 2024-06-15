@@ -1,4 +1,4 @@
-﻿namespace OsDsII.api.Http
+﻿namespace OsDsII.Api.Http
 {
     public class HttpErrorResponse
     {
@@ -7,6 +7,7 @@
         public int StatusCode { get; set; }
         public string UriPath { get; set; }
         public DateTimeOffset Timestamp { get; set; }
+
 
         public HttpErrorResponse(string errorCode, string message, int statusCode, string uriPath, DateTimeOffset timestamp)
         {

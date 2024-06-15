@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace OsDsII.api.Models
+namespace OsDsII.Api.Models
 {
 
     public class Comment
@@ -11,7 +11,6 @@ namespace OsDsII.api.Models
         public int ServiceOrderId { get; set; }
         public ServiceOrder ServiceOrder { get; set; }
         public DateTimeOffset SendDate { get; set; } = DateTimeOffset.UtcNow;
-
 
         public override bool Equals(object? obj)
         {

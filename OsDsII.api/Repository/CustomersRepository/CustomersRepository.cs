@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OsDsII.api.Data;
-using OsDsII.api.Dtos;
-using OsDsII.api.Models;
+﻿using OsDsII.Api.Data;
+using OsDsII.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace OsDsII.api.Repository.CustomersRepository
+namespace OsDsII.Api.Repository.CustomersRepository
 {
     public sealed class CustomersRepository : ICustomersRepository
     {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OsDsII.api.Models
+namespace OsDsII.Api.Models
 {
     public class Customer
     {
@@ -16,7 +16,9 @@ namespace OsDsII.api.Models
         public List<ServiceOrder>? ServiceOrders { get; set; } = null;
 
         public Customer()
-        { }
+        { 
+
+        }
 
         public Customer(string name)
         {

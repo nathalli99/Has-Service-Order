@@ -1,8 +1,7 @@
-﻿using OsDsII.api.Models;
+﻿using OsDsII.Api.Models;
 
-namespace OsDsII.api.Repository.ServiceOrderRepository
+namespace OsDsII.Api.Repository.ServiceOrderRepository
 {
-    // DEPENDENCY INVERSION PRINCIPLE (SOLID  AQUI É O D)
     public interface IServiceOrderRepository
     {
         public Task<List<ServiceOrder>> GetAllAsync();
@@ -12,7 +11,5 @@ namespace OsDsII.api.Repository.ServiceOrderRepository
         public Task CancelAsync(ServiceOrder serviceOrder);
         public Task<ServiceOrder> GetServiceOrderWithComments(int serviceOrderId);
         public Task<ServiceOrder> GetServiceOrderFromUser(int serviceOrderId);
-
-        public Task<List<ServiceOrder>> GetAllServiceOrderFromCustomer(int customerId);
     }
 }

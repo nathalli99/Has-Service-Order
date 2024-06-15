@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
-using OsDsII.api.Dtos;
-using OsDsII.api.Models;
+using OsDsII.Api.Dtos;
+using OsDsII.Api.Dtos.Customers;
+using OsDsII.Api.Dtos.ServiceOrders;
+using OsDsII.Api.Models;
 
 namespace OsDsII.api
 {

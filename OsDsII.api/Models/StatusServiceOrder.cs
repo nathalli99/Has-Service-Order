@@ -1,4 +1,4 @@
-namespace OsDsII.api.Models
+namespace OsDsII.Api.Models
 {
     public enum StatusServiceOrder
     {

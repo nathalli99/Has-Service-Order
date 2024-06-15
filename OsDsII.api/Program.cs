@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using OsDsII.api.Data;
-using OsDsII.api.Repository.CommentsRepository;
-using OsDsII.api.Repository.CustomersRepository;
-using OsDsII.api.Repository.ServiceOrderRepository;
-using OsDsII.api.Services.Customers;
-using OsDsII.api.Services.ServiceOrders;
+using OsDsII.Api.Data;
+using OsDsII.Api.Repository.CommentsRepository;
+using OsDsII.Api.Repository.CustomersRepository;
+using OsDsII.Api.Repository.ServiceOrderRepository;
+using OsDsII.Api.Services.Customers;
+using OsDsII.Api.Services.ServiceOrders;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -24,12 +24,12 @@ builder.Services.AddScoped<ICustomersRepository, CustomersRepository>();
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
 
 builder.Services.AddScoped<ICustomersService, CustomersService>();
-builder.Services.AddScoped<IServiceOrdersService, ServiceOrdersService>();
+builder.Services.AddScoped<IServiceOrderService, ServiceOrderService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Learn more about configuring Swagger/OpenApi at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

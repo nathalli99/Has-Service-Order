@@ -1,6 +1,6 @@
-﻿using OsDsII.api.Models;
+﻿using OsDsII.Api.Models;
 
-namespace OsDsII.api.Dtos
+namespace OsDsII.Api.Dtos.ServiceOrders
 {
     public record ServiceOrderDto(
         int Id,
@@ -9,5 +9,6 @@ namespace OsDsII.api.Dtos
         StatusServiceOrder Status,
         DateTimeOffset OpeningDate,
         DateTimeOffset FinishDate,
-        List<CommentDto> Comments);
+        List<Comment> Comments //CommentDTO
+        );
 }

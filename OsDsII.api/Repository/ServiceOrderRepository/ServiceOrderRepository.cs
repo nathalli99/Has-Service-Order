@@ -1,12 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OsDsII.api.Data;
-using OsDsII.api.Models;
+﻿using OsDsII.Api.Data;
+using OsDsII.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace OsDsII.api.Repository.ServiceOrderRepository
+namespace OsDsII.Api.Repository.ServiceOrderRepository
 {
     public sealed class ServiceOrderRepository : IServiceOrderRepository
     {
-        // DI DATA CONTEXT
         private readonly DataContext _dataContext;
 
         public ServiceOrderRepository(DataContext dataContext)
@@ -57,12 +56,6 @@ namespace OsDsII.api.Repository.ServiceOrderRepository
                  .FirstOrDefaultAsync(s => serviceOrderId == s.Id);
         }
 
-        public async Task<List<ServiceOrder>> GetAllServiceOrderFromCustomer(int customerId)
-        {
-            return await _dataContext.ServiceOrders
-                .Where(so => so.CustomerId == customerId)
-                .ToListAsync();
-        }
 
     }
 }

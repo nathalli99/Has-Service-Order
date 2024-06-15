@@ -1,17 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Serialization;
+﻿using OsDsII.Api.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using OsDsII.api.Http;
+using Newtonsoft.Json.Serialization;
 using System.Net;
 
-namespace OsDsII.api.Exceptions
+namespace OsDsII.Api.Exceptions
 {
     public class BaseException : Exception
     {
         private HttpErrorResponse HttpResponse { get; set; }
         private HttpStatusCode StatusCode { get; set; }
 
-        public BaseException(string errorCode, string message, HttpStatusCode httpStatusCode, int statusCode, string uriPath, DateTimeOffset timestamp, Exception? ex) : base(message, ex)
+        public BaseException(string errorCode, string message, HttpStatusCode httpStatusCode, int statusCode,
+                            string uriPath, DateTimeOffset timestamp, Exception? ex) : base(message, ex)
         {
             StatusCode = httpStatusCode;
             HttpResponse = new HttpErrorResponse(errorCode, message, statusCode, uriPath, timestamp);
@@ -22,7 +23,10 @@ namespace OsDsII.api.Exceptions
             return new ContentResult
             {
                 StatusCode = (int)StatusCode,
-                Content = JsonConvert.SerializeObject(HttpResponse, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }),
+                Content = JsonConvert.SerializeObject(HttpResponse, new JsonSerializerSettings 
+                { 
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                }),
             };
         }
     }

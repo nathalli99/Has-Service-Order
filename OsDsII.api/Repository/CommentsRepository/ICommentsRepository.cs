@@ -1,6 +1,6 @@
-﻿using OsDsII.api.Models;
+﻿using OsDsII.Api.Models;
 
-namespace OsDsII.api.Repository.CommentsRepository
+namespace OsDsII.Api.Repository.CommentsRepository
 {
     public interface ICommentsRepository
     {

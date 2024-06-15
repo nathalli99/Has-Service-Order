@@ -1,14 +1,15 @@
 ﻿using System.Net;
 
-namespace OsDsII.api.Exceptions
+namespace OsDsII.Api.Exceptions
 {
-    public sealed class NotFoundException : BaseException
+    public class NotFoundException : BaseException
     {
-        public NotFoundException(string message) : base
+        public NotFoundException(string message) :
+        base
             (
                 "HSO-002",
                 message,
-                HttpStatusCode.NotFound,
+                HttpStatusCode.NoContent,
                 StatusCodes.Status404NotFound,
                 null,
                 DateTimeOffset.UtcNow,
@@ -16,16 +17,5 @@ namespace OsDsII.api.Exceptions
             )
         { }
 
-        public NotFoundException(string message, string uriPath) : base
-    (
-        "HSO-002",
-        message,
-        HttpStatusCode.NotFound,
-        StatusCodes.Status404NotFound,
-        uriPath,
-        DateTimeOffset.UtcNow,
-        null
-    )
-        { }
     }
 }
